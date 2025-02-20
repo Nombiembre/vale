@@ -1,0 +1,49 @@
+---
+import Head from '~/components/common/Head.astro';
+import Header from '~/components/common/Header.astro';
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <Head title={title} />
+  <body class="text-white bg-black relative">
+    <div
+      class="fixed inset-0 -z-10 h-full w-full [background:radial-gradient(125%_120%_at_50%_0%,#000_40%,#18276b_100%)]"
+    >
+    </div>
+    <Header />
+    <div transition:animate="slide">
+      <slot class="py-10" />
+    </div>
+  </body>
+</html>
+
+<script>
+  import Lenis from 'lenis'
+  new Lenis({
+    autoRaf: true,
+  });
+
+
+</script>
+
+<style is:global>
+  body {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    @apply text-base md:text-xl;
+  }
+
+  .container {
+    --max_width: 1440px;
+    --padding: 1rem;
+
+    width: min(100% - var(--padding) * 2, var(--max_width));
+    margin-inline: auto;
+  }
+</style>
