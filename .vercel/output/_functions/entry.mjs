@@ -1,6 +1,6 @@
 import { renderers } from './renderers.mjs';
 import { c as createExports } from './chunks/entrypoint_BSyg71td.mjs';
-import { manifest } from './manifest_Oad6jD_G.mjs';
+import { manifest } from './manifest_qMVAi-XX.mjs';
 
 const _page0 = () => import('./pages/_image.astro.mjs');
 const _page1 = () => import('./pages/api/sendemail.json.astro.mjs');
