@@ -1,10 +1,30 @@
 ---
-import Typography from "~/components/common/Typography.astro";
-import Layout from "~/layouts/Layout.astro";
+import { getCollection } from 'astro:content';
+import Typography from '~/components/common/Typography.astro';
+import Layout from '~/layouts/Layout.astro';
+
+const capsules = await getCollection('diary');
+console.log('🚀 ~ file: journal.astro:7 ~ capsules:', capsules);
 ---
 
 <Layout title="Diario">
   <main class="container">
     <Typography as="h1" variant="h1">Capsules of Echoes</Typography>
+    <div class="max-w-xs border rounded-xl border-slate-400 overflow-hidden">
+      {
+        capsules.map((capsule) => (
+          <a class="block cursor-pointer" href={`/journal/${capsule.slug}`}>
+            <div class="aspect-video">
+              <img src={capsule.data.heroImage} alt="heroImage" class="w-full h-full object-cover" />
+            </div>
+            <div class="py-3">
+              <Typography as="h2" variant="h3">
+                {capsule.data.title}
+              </Typography>
+            </div>
+          </a>
+        ))
+      }
+    </div>
   </main>
 </Layout>

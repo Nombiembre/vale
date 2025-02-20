@@ -1,10 +1,39 @@
 ---
-import Typography from "~/components/common/Typography.astro";
-import Layout from "~/layouts/Layout.astro";
+import Button from '~/components/common/Button.astro';
+import Typography from '~/components/common/Typography.astro';
+import Layout from '~/layouts/Layout.astro';
 ---
 
 <Layout title="Signal Home">
   <main class="container">
-    <Typography as="h1" variant="h1">Bring Me Back to You</Typography>
+    <Typography as="h1" class="mb-12" variant="h1">Bring Me Back to You</Typography>
+
+    <form class="max-w-2xl mx-auto space-y-5">
+      <textarea
+        name="message"
+        id="message"
+        rows="8"
+        class="block min-w-full py-3 px-4 rounded-xl text-white bg-slate-800 outline-none focus-visible:outline-2 focus-visible:outline-primary"
+        placeholder="Escribe aquí tu mensaje..."></textarea>
+      <Button class="min-w-full" text="Enviar Mensaje" type="submit" />
+    </form>
   </main>
 </Layout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const form = document.querySelector('form') as HTMLFormElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const message = document.querySelector('#message') as HTMLTextAreaElement;
+      const messageValue = message.value;
+      const response = await fetch('/api/sendEmail.json', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ messageValue }),
+      });
+    });
+  });
+</script>

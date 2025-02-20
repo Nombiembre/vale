@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
+import Prose from '~/components/common/Prose.astro';
+import Section from '~/components/common/Section.astro';
+import Layout from '~/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('news');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+
+const post = await getEntry('diary', slug);
+const { Content } = await post.render();
+const transitionName = `post-img-${post.slug}`;
+const { title, heroImage } = post.data;
+---
+
+<Layout title={title}>
+  <div class="pb-10">
+    <div class="aspect-video max-w-3xl  mx-auto rounded-lg overflow-hidden shadow-2xl">
+      <img
+        transition:name={transitionName}
+        class="w-full h-full object-cover"
+        src={heroImage}
+        alt="Hero Image"
+      />
+    </div>
+    <div class="py-4 space-y-4 max-w-3xl mx-auto">
+      <!-- Make the date format like this: 01 Dec 2022 -->
+      <!-- <p class="w-full block text-center font-bricolage text-gray-500 text-lg">
+          {date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+        </p> -->
+      <h1 class="text-center text-4xl font-bold font-bricolage text-balance">{title}</h1>
+    </div>
+    <Prose class="border-t mx-auto py-8 border-gray-300 text-lg">
+      <Content />
+    </Prose>
+  </div>
+</Layout>
